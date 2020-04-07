@@ -76,7 +76,30 @@
 // Let's code!
 // -----------
 function balancedParens(str) {
+    const stack = [];
 
+    const pairs = {
+        '(' : ')',
+        '[' : ']',
+        '{' : '}'
+    }
+
+    for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+
+        if (pairs[char]) {
+            // push every left bracket into stack
+            stack.push(char);
+        } else if (char === ')' || char === ']' || char === '}') {
+            // check every right bracket to top of stack
+            if (pairs[stack.pop()] !== char) {
+                return false;
+            }
+        }
+
+    }
+
+    return stack.length === 0;
 }
 
 exports.balancedParens = balancedParens;
