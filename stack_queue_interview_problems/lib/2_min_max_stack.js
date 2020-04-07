@@ -72,22 +72,39 @@ class Node {
 }
 
 // Refactor the regular Stack below into a MinMaxStack!
-class Stack {
+// class Stack {
+    // Change class name to MinMaxStack
+class MinMaxStack {
     constructor() {
         this.top = null;
         this.bottom = null;
         this.length = 0;
+        this.maxStack = [];
+        this.minStack = [];
     }
 
     push(val) {
         const newNode = new Node(val);
+        
         if (!this.top) {
             this.top = newNode;
             this.bottom = newNode;
+
+            // push node into both min/max stacks if stack is empty
+            this.maxStack.push(newNode);
+            this.minStack.push(newNode);
         } else {
             const temp = this.top;
             this.top = newNode;
             this.top.next = temp;
+
+            // push node into max stack if node is larger then current max 
+            if (newNode.value >= this.maxStack[this.maxStack.length - 1].value) {
+                this.maxStack.push(newNode);
+            // push node into min stack if node is smaller then current min
+            } else if (newNode.value <= this.minStack[this.minStack.length - 1].value) {
+                this.minStack.push(newNode);
+            }
         }
         return ++this.length;
     }
@@ -96,20 +113,43 @@ class Stack {
         if (!this.top) {
             return null;
         }
+
         const temp = this.top;
+
         if (this.top === this.bottom) {
             this.bottom = null;
+        } 
+
+        // pop current max if current top is the same node
+        if (temp.value === this.maxStack[this.maxStack.length - 1].value) {
+            this.maxStack.pop();
+        } 
+
+        // pop current min if current min is the same node
+        if (temp.value === this.minStack[this.minStack.length - 1].value) {
+            this.minStack.pop();
         }
+
         this.top = this.top.next;
         this.length--;
-        return temp.value;
+        return temp;
     }
 
     size() {
         return this.length;
     }
+
+    max() {
+        return this.maxStack[this.maxStack.length - 1] || null;
+    }
+
+    min(){
+        return this.minStack[this.minStack.length - 1] || null;
+    }  
 }
 
 // Forgetting something down here? 
 exports.Node = Node;
-exports.Stack = Stack;
+// exports.Stack = Stack;
+// export new class 
+exports.MinMaxStack = MinMaxStack;
