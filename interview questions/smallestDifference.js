@@ -11,9 +11,10 @@ function smallestDifference(arrayOne, arrayTwo) {
       let second = arrayTwo[j];
       let difference = first - second;
 
+      // return values if difference is 0
+      if (difference === 0) return [first, second];
       // absolute value difference if negative
       if (difference < 0) difference *= -1;
-
       // update minDifference and results when smaller difference is found
       if (difference < minDifference) {
         minDifference = difference;
@@ -22,5 +23,45 @@ function smallestDifference(arrayOne, arrayTwo) {
     }
   }
 
+  return results;
+}
+
+////////////////////////////////////////////////////////////////
+
+// O(nlong(n) + mlong(m)) time | O(1) space
+// Optimized strategy
+function smallestDifference(arrayOne, arrayTwo) {
+  // sort both arrays
+  arrayOne.sort((a, b) => a - b);
+  arrayTwo.sort((a, b) => a - b);
+
+  let i = 0;
+  let j = 0;
+  let smallest = Infinity;
+  let results = [];
+
+  while (i < arrayOne.length && j < arrayTwo.length) {
+    let first = arrayOne[i];
+    let second = arrayTwo[j];
+    let difference = first - second;
+    if (difference < 0) difference *= -1;
+
+    // move to next element of array with smaller value
+    if (first < second) {
+      i++;
+    } else if (second < first) {
+      j++;
+    }
+    // return values if difference is 0
+    else {
+      return [first, second];
+    }
+
+    // update current smallest and results
+    if (difference < smallest) {
+      smallest = difference;
+      results = [first, second];
+    }
+  }
   return results;
 }
