@@ -5,7 +5,7 @@ def twoNumberSum(array, targetSum):
     array.sort()
 
 
-# track left and right elements
+# track left and right elements with indexes
 left_idx = 0
 right_idx = len(array) - 1
 
@@ -23,4 +23,26 @@ while left_idx != right_idx:
 		else:
 			left_idx += 1
 
+    # return empty array if no values add up
+	return []
+
+
+
+# O(n) Time| O(n) Space
+
+def twoNumberSum(array, targetSum):
+	# store values in object
+    values = {}
+	
+	for num in array:
+		difference = targetSum - num
+        
+        # check if difference currently exists in object
+        # else add current number into object
+		if difference in values:
+			return [num, difference]
+		else:
+			values[num] = True
+
+    # return empty array if no values add up
 	return []
